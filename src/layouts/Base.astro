@@ -63,6 +63,24 @@ const ogImage = hasOrigin ? new URL('/media/og-omerta.jpg', Astro.site) : null;
 
     <script is:inline>
       document.documentElement.classList.replace('no-js', 'js');
+      // If the page's own script or stylesheet fails to load (a dropped connection or a
+      // transient 5xx from the CDN), retry once automatically instead of leaving the
+      // visitor to reload by hand. Once per session, so it can never loop.
+      window.addEventListener(
+        'error',
+        function (e) {
+          var t = e.target;
+          if (!t || !(t.tagName === 'SCRIPT' || (t.tagName === 'LINK' && t.rel === 'stylesheet'))) return;
+          try {
+            if (sessionStorage.getItem('omerta:retry')) return;
+            sessionStorage.setItem('omerta:retry', '1');
+          } catch (err) {
+            return;
+          }
+          location.reload();
+        },
+        true,
+      );
     </script>
     <slot name="head" />
   </head>

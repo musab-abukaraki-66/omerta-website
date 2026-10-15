@@ -48,6 +48,19 @@ import Wordmark from './Wordmark.astro';
   :global(html.intro-play.intro-done) .loader {
     pointer-events: none;
   }
+  /* Failsafe: the intro is driven by JavaScript. If the script never runs (failed
+     request, blocked, crashed), remove the cover after 6 s so the page is never left
+     black. A normal intro finishes in ~3 s and sets .intro-done first. */
+  :global(html.intro-play:not(.intro-done)) .loader {
+    animation: loader-failsafe 400ms linear 6s forwards;
+  }
+  @keyframes loader-failsafe {
+    to {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
   .loader__band {
     position: absolute;
     left: 0;

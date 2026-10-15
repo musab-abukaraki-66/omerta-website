@@ -1,0 +1,219 @@
+---
+import { observation } from '../../content/site';
+const img = (name: string) => ({
+  src: `/media/${name}-1400.webp`,
+  srcset: `/media/${name}-800.webp 800w, /media/${name}-1400.webp 1400w, /media/${name}-2000.webp 2000w`,
+});
+const nat = img('zambezi-natural');
+const ana = img('zambezi-analytic');
+---
+
+<section class="obs" id="observation" aria-labelledby="obs-title" data-obs data-section-theme="dark">
+  <div class="obs__sticky">
+    <figure class="obs__figure">
+      <div class="obs__media">
+        <img
+          class="obs__img"
+          {...nat}
+          sizes="100vw"
+          width="2000"
+          height="1333"
+          loading="lazy"
+          decoding="async"
+          alt="Natural-colour Landsat 8 image of the Zambezi River Delta: green floodplain and river channels meeting turquoise, sediment-laden coastal water."
+        />
+        <img
+          class="obs__img obs__img--analytic"
+          {...ana}
+          sizes="100vw"
+          width="2000"
+          height="1333"
+          loading="lazy"
+          decoding="async"
+          alt="Illustrative analytic layer of the same scene: vegetation density in orange on land, sediment contours as lines over the water, coastline traced in white."
+        />
+        <div class="obs__scan" aria-hidden="true">
+          <span class="obs__scanline"></span>
+          <span class="label obs__scanlabel"><span data-obs-pct>000</span>% · Analysed</span>
+        </div>
+        <div class="obs__frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="obs__shade" aria-hidden="true"></div>
+      </div>
+      <figcaption class="micro caption obs__caption"><span class="cross" aria-hidden="true"></span>{observation.caption}</figcaption>
+    </figure>
+
+    <div class="wrap obs__layout">
+      <div class="obs__copy">
+        <p class="label obs__eyebrow"><span class="obs__idx">{observation.index}</span><span>{observation.eyebrow}</span></p>
+        <h2 class="title" id="obs-title">{observation.title.map((l) => <span>{l}</span>)}</h2>
+        <p class="lead obs__lead">{observation.lead}</p>
+      </div>
+      <dl class="obs__meta">
+        {observation.scene.map(([k, v]) => (
+          <div><dt class="label">{k}</dt><dd>{v}</dd></div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .obs {
+    position: relative;
+    height: 300vh;
+    background: var(--void);
+  }
+  .obs__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .obs__figure,
+  .obs__media {
+    position: absolute;
+    inset: 0;
+  }
+  .obs__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(var(--obs-zoom, 1.08));
+    transform-origin: 30% 30%;
+    will-change: transform;
+  }
+  .obs__img--analytic {
+    clip-path: inset(0 calc(100% - var(--obs-x, 0%)) 0 0);
+  }
+  .obs__scan {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--obs-x, 0%);
+    opacity: var(--obs-scan-o, 0);
+  }
+  .obs__scanline {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    width: 2px;
+    background: var(--bone);
+    box-shadow: 0 0 24px 2px rgba(236, 234, 228, 0.55);
+  }
+  .obs__scanlabel {
+    position: absolute;
+    top: calc(var(--header-h) + 1.5rem);
+    left: 14px;
+    white-space: nowrap;
+    padding: 0.4rem 0.6rem;
+    background: var(--bone);
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .obs__frame {
+    position: absolute;
+    inset: calc(var(--header-h) + 0.5rem) var(--gutter) 3.25rem;
+    pointer-events: none;
+  }
+  .obs__frame i {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: rgba(236, 234, 228, 0.7);
+    border-style: solid;
+    border-width: 0;
+  }
+  .obs__frame i:nth-child(1) { top: 0; left: 0; border-top-width: 1px; border-left-width: 1px; }
+  .obs__frame i:nth-child(2) { top: 0; right: 0; border-top-width: 1px; border-right-width: 1px; }
+  .obs__frame i:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 1px; border-left-width: 1px; }
+  .obs__frame i:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 1px; border-right-width: 1px; }
+  .obs__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right, rgba(5, 7, 10, 0.88) 0%, rgba(5, 7, 10, 0.55) 34%, transparent 62%),
+      linear-gradient(to top, rgba(5, 7, 10, 0.7), transparent 30%);
+  }
+  .obs__caption {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    bottom: 1rem;
+    color: var(--mist);
+  }
+  .obs__layout {
+    position: relative;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    padding-top: var(--header-h);
+    padding-bottom: 4rem;
+  }
+
+  .obs__eyebrow {
+    display: flex;
+    gap: 1.25rem;
+    color: var(--mist);
+    margin-bottom: 1.5rem;
+  }
+  .obs__idx {
+    color: var(--signal);
+  }
+  .obs__lead {
+    margin-top: 1.75rem;
+    color: #c9ced4;
+  }
+  .obs__meta {
+    justify-self: end;
+    align-self: end;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.2rem 1.5rem;
+    padding: 1rem 1.2rem;
+    background: rgba(5, 7, 10, 0.62);
+    backdrop-filter: blur(6px);
+    box-shadow: inset 0 0 0 1px var(--line-dark);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .obs__meta div {
+    display: contents;
+  }
+  .obs__meta dt {
+    color: var(--mist);
+    font-size: var(--fs-micro);
+  }
+  @media (max-width: 900px) {
+    .obs {
+      height: 260vh;
+    }
+    .obs__layout {
+      grid-template-columns: 1fr;
+      align-content: end;
+      gap: 1.25rem;
+      padding-bottom: 6.5rem;
+    }
+    .obs__meta {
+      justify-self: stretch;
+      grid-template-columns: auto 1fr;
+    }
+    .obs__shade {
+      background: linear-gradient(to top, rgba(5, 7, 10, 0.95) 30%, rgba(5, 7, 10, 0.7) 62%, rgba(5, 7, 10, 0.2) 85%);
+    }
+    .obs__img {
+      transform-origin: 20% 40%;
+    }
+  }
+  @media (max-height: 720px) and (max-width: 900px) {
+    .obs__lead {
+      display: none;
+    }
+  }
+</style>

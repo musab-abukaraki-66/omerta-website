@@ -1,0 +1,169 @@
+---
+import { approach } from '../../content/site';
+---
+
+<section class="appr" id="approach" aria-labelledby="appr-title" data-section-theme="dark">
+  <div class="appr__stage" data-appr-stage>
+    <div class="appr__sticky">
+      <img
+        class="appr__bg"
+        src="/media/npp-cleanroom-1400.webp"
+        srcset="/media/npp-cleanroom-800.webp 800w, /media/npp-cleanroom-1400.webp 1400w, /media/npp-cleanroom-1920.webp 1920w"
+        sizes="100vw"
+        width="1920"
+        height="1285"
+        loading="lazy"
+        decoding="async"
+        alt="Technicians in clean-room suits beside the Suomi NPP satellite, wrapped in gold and silver thermal blankets, on a test platform."
+      />
+      <div class="appr__shade" aria-hidden="true"></div>
+      <div class="wrap appr__inner">
+        <h2 class="label appr__eyebrow" id="appr-title"><span class="appr__idx">{approach.index}</span><span>{approach.eyebrow}</span></h2>
+        <div class="appr__statements">
+          {approach.statements.map((lines, i) => (
+            <p class="statement appr__statement" data-appr-statement={i}>
+              {lines.map((l) => <span>{l}</span>)}
+            </p>
+          ))}
+        </div>
+      </div>
+      <p class="micro caption appr__caption wrap"><span class="cross" aria-hidden="true"></span>{approach.caption}</p>
+    </div>
+  </div>
+
+  <div class="wrap appr__steps">
+    <ol class="steps" role="list" data-reveal-group="120">
+      {approach.steps.map((s) => (
+        <li class="step" data-reveal>
+          <span class="label step__code">{s.code}</span>
+          <h3 class="step__title">{s.title}</h3>
+          <p class="step__text">{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .appr {
+    background: var(--void);
+  }
+  .appr__stage {
+    position: relative;
+    height: 240vh;
+  }
+  .appr__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .appr__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.35) contrast(1.05);
+    transform: scale(calc(1.12 - var(--appr-p, 0) * 0.1));
+  }
+  .appr__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(90% 80% at 50% 50%, rgba(5, 7, 10, 0.55), rgba(5, 7, 10, 0.92)),
+      rgba(5, 7, 10, calc(0.25 + var(--appr-p, 0) * 0.2));
+  }
+  .appr__inner {
+    position: relative;
+    text-align: center;
+  }
+  .appr__eyebrow {
+    display: inline-flex;
+    gap: 1.25rem;
+    color: var(--mist);
+    margin-bottom: 2rem;
+  }
+  .appr__idx {
+    color: var(--signal);
+  }
+  .appr__statements {
+    display: grid;
+  }
+  .appr__statement {
+    grid-area: 1 / 1;
+    font-size: clamp(2.1rem, 6vw, 5.5rem);
+    opacity: var(--o, 0);
+    filter: blur(calc((1 - var(--o, 0)) * 10px));
+    transform: translateY(calc((1 - var(--o, 0)) * var(--dir, 1) * 24px));
+  }
+  .appr__caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1rem;
+    max-width: var(--max);
+    color: var(--mist);
+  }
+  .appr__steps {
+    padding-block: var(--s-6);
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line-dark);
+  }
+  .step {
+    padding: 2rem 1.5rem 0 0;
+    border-right: 1px solid var(--line-dark);
+    margin-right: 1.5rem;
+  }
+  .step:last-child {
+    border-right: 0;
+  }
+  .step__code {
+    color: var(--signal);
+  }
+  .step__title {
+    margin-top: 2.5rem;
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .step__text {
+    margin-top: 1rem;
+    color: var(--mist);
+    max-width: 30ch;
+  }
+  @media (max-width: 900px) {
+    .steps {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 2.5rem;
+    }
+    .step:nth-child(2) {
+      border-right: 0;
+    }
+    .appr__stage {
+      height: 200vh;
+    }
+  }
+  @media (max-width: 560px) {
+    .steps {
+      grid-template-columns: 1fr;
+      row-gap: 0;
+    }
+    .step {
+      border-right: 0;
+      margin-right: 0;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--line-dark);
+    }
+    .step__title {
+      margin-top: 1rem;
+    }
+  }
+</style>

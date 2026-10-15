@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+*.log
+qa-output/
+dist-ep/
+.headers.test.json
+.headers.test*.json
+.vercel/

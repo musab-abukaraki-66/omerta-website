@@ -1,0 +1,191 @@
+---
+import { ground } from '../../content/site';
+---
+
+<section class="gnd" id="ground" aria-labelledby="gnd-title" data-section-theme="dark">
+  <div class="wrap gnd__intro">
+    <figure class="gnd__figure" data-gnd-figure>
+      <div class="gnd__imgwrap">
+        <img
+          class="gnd__img"
+          src="/media/dss53-night-1400.webp"
+          srcset="/media/dss53-night-800.webp 800w, /media/dss53-night-1400.webp 1400w, /media/dss53-night-1920.webp 1920w"
+          sizes="(max-width: 900px) 100vw, 55vw"
+          width="1920"
+          height="1440"
+          loading="lazy"
+          decoding="async"
+          alt="The DSS-53 34-metre radio antenna at night, its white dish and lattice structure lit against a black sky."
+        />
+      </div>
+      <figcaption class="micro caption"><span class="cross" aria-hidden="true"></span>{ground.caption}</figcaption>
+    </figure>
+    <div class="gnd__copy" data-reveal-group="110">
+      <p class="label gnd__eyebrow" data-reveal><span class="gnd__idx">{ground.index}</span><span>{ground.eyebrow}</span></p>
+      <h2 class="title" id="gnd-title" data-reveal>{ground.title.map((l) => <span>{l}</span>)}</h2>
+      <p class="lead gnd__lead" data-reveal>{ground.lead}</p>
+    </div>
+  </div>
+
+  <div class="wrap gnd__pathwrap" data-gnd-path>
+    <p class="label gnd__pathlabel" data-scramble>Data path · orbit to decision</p>
+    <div class="gnd__track">
+      <div class="gnd__rail" aria-hidden="true"><span class="gnd__rail-live"></span></div>
+      <ol class="gnd__path" role="list">
+      {ground.path.map((step, i) => (
+        <li class="gnd__step" style={`--i:${i}`}>
+          <span class="gnd__node" aria-hidden="true"></span>
+          <span class="label gnd__code">{step.code}</span>
+          <h3 class="gnd__title">{step.title}</h3>
+          <p class="gnd__text">{step.text}</p>
+        </li>
+      ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gnd {
+    position: relative;
+    background: var(--void);
+    padding-block: var(--s-6) calc(var(--s-6) * 0.8);
+  }
+  .gnd__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 7rem);
+    align-items: center;
+  }
+  .gnd__imgwrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3.4;
+    background: var(--graphite);
+    clip-path: inset(var(--gnd-clip, 12%) var(--gnd-clip, 12%) var(--gnd-clip, 12%) var(--gnd-clip, 12%));
+  }
+  .gnd__img {
+    width: 100%;
+    height: 112%;
+    object-fit: cover;
+    transform: translateY(calc(var(--gnd-par, 0) * -10%));
+  }
+  .gnd__figure .caption {
+    margin-top: 1rem;
+  }
+  .gnd__eyebrow {
+    display: flex;
+    gap: 1.25rem;
+    color: var(--mist);
+    margin-bottom: 1.5rem;
+  }
+  .gnd__idx {
+    color: var(--signal);
+  }
+  .gnd__lead {
+    margin-top: 1.75rem;
+  }
+  .gnd__pathwrap {
+    margin-top: var(--s-6);
+  }
+  .gnd__pathlabel {
+    color: var(--mist);
+    margin-bottom: 2.5rem;
+  }
+  .gnd__track {
+    position: relative;
+  }
+  .gnd__path {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .gnd__rail {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 5px;
+    height: 1px;
+    background: var(--line-dark);
+  }
+  .gnd__rail-live {
+    position: absolute;
+    inset: 0;
+    background: var(--signal);
+    transform-origin: left center;
+    transform: scaleX(var(--gnd-p, 0));
+  }
+  .gnd__step {
+    position: relative;
+    padding-top: 2rem;
+  }
+  .gnd__node {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 11px;
+    height: 11px;
+    border: 1px solid var(--bone);
+    background: var(--void);
+    transform: rotate(45deg);
+    transition: background-color 400ms var(--ease-std), border-color 400ms var(--ease-std);
+  }
+  .gnd__step.is-on .gnd__title {
+    color: var(--bone);
+  }
+  .gnd__step.is-on .gnd__node {
+    background: var(--signal);
+    border-color: var(--signal);
+  }
+  .gnd__code {
+    color: var(--mist);
+  }
+  .gnd__title {
+    color: var(--mist);
+    transition: color 400ms var(--ease-std);
+    margin-top: 0.6rem;
+    font-weight: 700;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    font-variation-settings: 'wdth' 112;
+    letter-spacing: 0.01em;
+  }
+  .gnd__text {
+    margin-top: 0.5rem;
+    color: var(--mist);
+    font-size: 0.95rem;
+    max-width: 24ch;
+  }
+  @media (max-width: 900px) {
+    .gnd__intro {
+      grid-template-columns: 1fr;
+    }
+    .gnd__path {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding-left: 2rem;
+    }
+    .gnd__rail {
+      left: 5px;
+      right: auto;
+      top: 0.4rem;
+      bottom: 2rem;
+      width: 1px;
+      height: auto;
+    }
+    .gnd__rail-live {
+      transform-origin: center top;
+      transform: scaleY(var(--gnd-p, 0));
+    }
+    .gnd__step {
+      padding: 0 0 2rem;
+    }
+    .gnd__node {
+      left: -2rem;
+      top: 0.25rem;
+    }
+    .gnd__text {
+      max-width: 40ch;
+    }
+  }
+</style>

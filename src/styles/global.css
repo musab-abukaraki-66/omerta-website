@@ -1,0 +1,442 @@
+@import './tokens.css';
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: var(--header-h);
+}
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+body {
+  background: var(--void);
+  color: var(--bone);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-variation-settings: 'wdth' 100;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+img,
+svg,
+canvas,
+video {
+  display: block;
+  max-width: 100%;
+}
+img {
+  height: auto;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+::selection {
+  background: var(--signal);
+  color: var(--void);
+}
+
+/* ---------- Focus ---------- */
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 4px;
+}
+
+/* ---------- Utilities ---------- */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: calc(var(--z-loader) + 1);
+  padding: 0.75rem 1rem;
+  background: var(--bone);
+  color: var(--ink);
+  font: 500 var(--fs-label) / 1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: none;
+}
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* ---------- Type ---------- */
+.label {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--fs-label);
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.micro {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+.statement {
+  font-weight: 300;
+  font-variation-settings: 'wdth' 92;
+  font-size: var(--fs-statement);
+  line-height: 0.98;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+}
+.title {
+  font-weight: 800;
+  font-size: var(--fs-title);
+  line-height: 0.96;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  font-variation-settings: 'wdth' 112;
+}
+.title span,
+.statement span {
+  display: block;
+}
+.lead {
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  max-width: 46ch;
+  color: var(--fg-2);
+}
+.cross {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  position: relative;
+  flex: none;
+}
+.cross::before,
+.cross::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+}
+.cross::before {
+  left: 4px;
+  top: 0;
+  width: 1px;
+  height: 9px;
+}
+.cross::after {
+  top: 4px;
+  left: 0;
+  height: 1px;
+  width: 9px;
+}
+
+/* ---------- Bracket button ---------- */
+.btn {
+  --btn-bg: var(--bone);
+  --btn-fg: var(--ink);
+  --bk: 6px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 52px;
+  padding: 0 1.9rem;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font: 500 var(--fs-label) / 1 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color var(--t-micro) var(--ease-std);
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--bk) * -1);
+  pointer-events: none;
+  --c: var(--btn-bg);
+  background:
+    linear-gradient(var(--c), var(--c)) top left / 8px 1px,
+    linear-gradient(var(--c), var(--c)) top left / 1px 8px,
+    linear-gradient(var(--c), var(--c)) top right / 8px 1px,
+    linear-gradient(var(--c), var(--c)) top right / 1px 8px,
+    linear-gradient(var(--c), var(--c)) bottom left / 8px 1px,
+    linear-gradient(var(--c), var(--c)) bottom left / 1px 8px,
+    linear-gradient(var(--c), var(--c)) bottom right / 8px 1px,
+    linear-gradient(var(--c), var(--c)) bottom right / 1px 8px;
+  background-repeat: no-repeat;
+  transition: inset var(--t-micro) var(--ease-out);
+}
+.btn:hover::before,
+.btn:focus-visible::before {
+  inset: -3px;
+}
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+.btn--ghost::before {
+  --c: var(--fg);
+}
+.btn--ghost:hover {
+  box-shadow: inset 0 0 0 1px var(--fg);
+}
+[data-theme='light'] .btn:not(.btn--ghost) {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--bone);
+}
+.btn .arrow {
+  width: 14px;
+  height: 10px;
+  flex: none;
+}
+
+/* Underlined text link */
+.link {
+  font: 500 var(--fs-label) / 1.4 var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
+  padding-bottom: 3px;
+  transition: background-size var(--t-micro) var(--ease-out);
+}
+.link:hover,
+.link:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* ---------- Reveal ---------- */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity var(--t-reveal) var(--ease-out),
+    transform var(--t-reveal) var(--ease-out),
+    filter var(--t-reveal) var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+.js [data-reveal='blur'] {
+  transform: none;
+  filter: blur(10px);
+}
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* ---------- Media ---------- */
+.caption {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  max-width: 62ch;
+}
+.caption .cross {
+  transform: translateY(1px);
+  color: var(--fg-2);
+}
+
+/* ---------- Film grain ----------
+   Static and unblended on purpose: a still texture composites once, whereas an
+   animated blended full-screen layer repaints/blends on every frame. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-grain);
+  pointer-events: none;
+  background: url('/textures/grain.png') repeat;
+  background-size: 128px 128px;
+  opacity: 0.32;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* ---------- Intro handoff ---------- */
+html.intro-play:not(.intro-docked) [data-header-logo] {
+  opacity: 0;
+}
+html.intro-play:not(.intro-done) .site-header .hdr-btn {
+  opacity: 0;
+}
+.site-header .hdr-btn {
+  transition: opacity 900ms var(--ease-std) 300ms;
+}
+
+/* ---------- Cursor hint ---------- */
+.cursor-hint {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: var(--z-header);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #fff;
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-std);
+}
+.cursor-hint.is-on {
+  opacity: 1;
+}
+/* Label sits just right of the pointer, like a caption riding with it. */
+.cursor-hint__ring {
+  width: 6px;
+  height: 0;
+}
+.cursor-hint .dud,
+.dud {
+  opacity: 0.55;
+}
+.no-webgl .ostage__poster {
+  opacity: 1 !important;
+}
+
+/* ---------- Flow layout (no-JS fallback and "content does not fit") ----------
+   Stages are pinned and scroll-choreographed by JS. Without JS — or when a stage's
+   content is taller than the viewport (large text settings, 200% zoom, short
+   screens; detected in ui/fit.ts) — they are un-pinned and every piece of content
+   is shown in normal flow. Custom properties use !important because JS may have set
+   them inline. */
+:is(html.no-js .ostage, .ostage.is-flow),
+:is(html.no-js .obs, .obs.is-flow),
+:is(html.no-js .appr__stage, .appr__stage.is-flow),
+:is(html.no-js .fin, .fin.is-flow) {
+  height: auto !important;
+}
+:is(html.no-js, .is-flow) :is(.ostage__sticky, .obs__sticky, .appr__sticky, .fin__sticky) {
+  position: relative;
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
+}
+:is(html.no-js, .is-flow) .ostage__media {
+  position: absolute;
+  overflow: hidden;
+}
+:is(html.no-js, .is-flow) :is(.hero, .orbitc) {
+  position: relative;
+  min-height: 100vh;
+  --hero-o: 1 !important;
+  --hero-b: 0 !important;
+  --hero-pe: auto !important;
+  --orbit-o: 1 !important;
+  --orbit-y: 0 !important;
+}
+:is(html.no-js, .is-flow) .orbitc {
+  pointer-events: auto;
+}
+:is(html.no-js, .is-flow) .orbitc__grid {
+  height: auto;
+}
+:is(html.no-js, .is-flow) .obs__figure {
+  position: absolute;
+  overflow: hidden;
+}
+:is(html.no-js, .is-flow) .obs__layout {
+  height: auto;
+  min-height: 100vh;
+}
+:is(html.no-js, .is-flow) .appr__statements {
+  gap: 2rem;
+}
+:is(html.no-js, .is-flow) .appr__statement {
+  grid-area: auto;
+  --o: 1 !important;
+}
+:is(html.no-js, .is-flow) .appr__sticky {
+  padding-block: 8rem;
+}
+:is(html.no-js .fin, .fin.is-flow) {
+  --fin-o: 1 !important;
+  --fin-pe: auto !important;
+}
+:is(html.no-js, .is-flow) .fin__band {
+  display: none;
+}
+:is(html.no-js, .is-flow) .fin__sticky {
+  padding-block: 8rem;
+}
+html.no-js .gnd__imgwrap {
+  --gnd-clip: 0%;
+}
+html.no-js .gnd__rail-live {
+  --gnd-p: 1;
+}
+/* Used for an instant while ui/fit.ts measures untransformed layout. */
+.is-measuring .orbitc__copy {
+  transform: none !important;
+}

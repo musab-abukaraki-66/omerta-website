@@ -1,0 +1,246 @@
+---
+import Base from '../layouts/Base.astro';
+import { contact, site } from '../content/site';
+---
+
+<Base title="Contact" description="Start a conversation with OMERTA about satellite systems, Earth observation, ground infrastructure or orbital analytics.">
+  <section class="cpage" data-section-theme="dark" aria-labelledby="contact-title">
+    <div class="wrap cpage__grid">
+      <div class="cpage__intro" data-reveal-group="110">
+        <p class="label cpage__eyebrow" data-reveal><span class="cross" aria-hidden="true"></span>Contact</p>
+        <h1 class="statement cpage__title" id="contact-title" data-reveal>{contact.title.map((l) => <span>{l}</span>)}</h1>
+        <p class="lead cpage__lead" data-reveal>{contact.lead}</p>
+        {site.contactEmail && (
+          <p class="cpage__mail" data-reveal>
+            <a class="link" href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>
+          </p>
+        )}
+      </div>
+
+      <form class="form" data-contact-form method="post" action="#" aria-describedby="form-note">
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label for="f-name" class="label">Name <span aria-hidden="true">*</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required data-validate aria-describedby="e-name" />
+            <p class="field__error" id="e-name" data-error-for="name"></p>
+          </div>
+          <div class="field">
+            <label for="f-email" class="label">E-mail <span aria-hidden="true">*</span></label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required data-validate aria-describedby="e-email" />
+            <p class="field__error" id="e-email" data-error-for="email"></p>
+          </div>
+        </div>
+        <div class="form__row form__row--2">
+          <div class="field">
+            <label for="f-org" class="label">Organisation</label>
+            <input id="f-org" name="organisation" type="text" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="f-interest" class="label">Area of interest</label>
+            <div class="select">
+              <select id="f-interest" name="interest">
+                {contact.interests.map((i) => <option value={i}>{i}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-message" class="label">Message <span aria-hidden="true">*</span></label>
+          <textarea id="f-message" name="message" rows="6" required minlength="20" data-validate aria-describedby="e-message"></textarea>
+          <p class="field__error" id="e-message" data-error-for="message"></p>
+        </div>
+        <div class="field field--check">
+          <input id="f-consent" name="consent" type="checkbox" value="yes" required data-validate aria-describedby="e-consent" />
+          <label for="f-consent">I agree that OMERTA may use these details to reply to this enquiry.</label>
+          <p class="field__error" id="e-consent" data-error-for="consent"></p>
+          {site.privacyNoticeUrl && (
+            <p class="micro field__note">How these details are handled: <a class="link" href={site.privacyNoticeUrl}>privacy notice</a>.</p>
+          )}
+        </div>
+        <div class="form__trap" aria-hidden="true">
+          <label for="f-site">Leave this field empty</label>
+          <input id="f-site" name="company_site" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <div class="form__foot">
+          <button class="btn" type="submit"><span data-scramble-hover>Send enquiry</span>
+            <svg class="arrow" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h12M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"></path></svg>
+          </button>
+          <p class="micro" id="form-note">Fields marked * are required.</p>
+        </div>
+        <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cpage {
+    min-height: 100vh;
+    padding-block: calc(var(--header-h) + clamp(3rem, 10vh, 7rem)) var(--s-6);
+    background:
+      radial-gradient(70% 60% at 85% 0%, rgba(40, 70, 120, 0.22), transparent 70%),
+      var(--void);
+  }
+  .cpage__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(2.5rem, 7vw, 8rem);
+  }
+  .cpage__eyebrow {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    color: var(--mist);
+    margin-bottom: 1.75rem;
+  }
+  .cpage__title {
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+  }
+  .cpage__lead {
+    margin-top: 2rem;
+  }
+  .cpage__mail {
+    margin-top: 2rem;
+  }
+  .form {
+    display: grid;
+    gap: 1.6rem;
+    align-content: start;
+  }
+  .form__row--2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6rem;
+  }
+  .field {
+    display: grid;
+    gap: 0.6rem;
+  }
+  .field > .label {
+    color: var(--mist);
+  }
+  .field input[type='text'],
+  .field input[type='email'],
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 50px;
+    padding: 0.8rem 0;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(236, 234, 228, 0.32);
+    border-radius: 0;
+    color: var(--bone);
+    font-size: 1.05rem;
+    transition: border-color var(--t-micro) var(--ease-std);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.5;
+  }
+  .field input:hover,
+  .field textarea:hover,
+  .field select:hover {
+    border-bottom-color: rgba(236, 234, 228, 0.6);
+  }
+  .field input:focus-visible,
+  .field textarea:focus-visible,
+  .field select:focus-visible {
+    outline: none;
+    border-bottom-color: var(--signal);
+    box-shadow: 0 1px 0 0 var(--signal);
+  }
+  .field [aria-invalid='true'] {
+    border-bottom-color: #ff8a5c;
+  }
+  .select {
+    position: relative;
+  }
+  .select::after {
+    content: '';
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-right: 1px solid var(--bone);
+    border-bottom: 1px solid var(--bone);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+  .field select {
+    appearance: none;
+    padding-right: 2rem;
+    cursor: pointer;
+  }
+  .field select option {
+    background: var(--graphite);
+    color: var(--bone);
+  }
+  .field__error {
+    min-height: 1.2em;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    color: #ff8a5c;
+    letter-spacing: 0.03em;
+  }
+  .field--check {
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    column-gap: 0.9rem;
+  }
+  .field--check input {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    accent-color: var(--signal);
+  }
+  .field--check label {
+    color: var(--mist);
+    font-size: 0.95rem;
+  }
+  .field--check .field__error {
+    grid-column: 2;
+  }
+  .form__trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .form__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+    margin-top: 0.5rem;
+  }
+  .form__status {
+    min-height: 1.5em;
+    font-size: 0.95rem;
+    max-width: 52ch;
+  }
+  .form__status:not(:empty) {
+    padding: 0.9rem 1rem;
+    box-shadow: inset 2px 0 0 0 var(--mist);
+    background: rgba(236, 234, 228, 0.04);
+  }
+  .form__status[data-kind='error'] {
+    box-shadow: inset 2px 0 0 0 #ff8a5c;
+  }
+  .form__status[data-kind='success'] {
+    box-shadow: inset 2px 0 0 0 #7fd1a8;
+  }
+  @media (max-width: 900px) {
+    .cpage__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .form__row--2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

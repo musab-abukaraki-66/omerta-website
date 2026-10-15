@@ -1,0 +1,415 @@
+---
+import { hero, orbit } from '../../content/site';
+---
+
+<div class="ostage" data-orbit-stage data-section-theme="dark">
+  <span id="orbit" class="ostage__anchor" tabindex="-1"></span>
+  <div class="ostage__sticky">
+    <div class="ostage__media" aria-hidden="true">
+      <img
+        class="ostage__poster"
+        data-hero-poster
+        src="/media/orbit-poster-1600.webp"
+        srcset="/media/orbit-poster-900.webp 900w, /media/orbit-poster-1600.webp 1600w, /media/orbit-poster-2400.webp 2400w"
+        sizes="100vw"
+        width="1600"
+        height="1000"
+        alt=""
+        fetchpriority="high"
+        decoding="async"
+      />
+      <canvas class="ostage__canvas" data-orbit-canvas></canvas>
+      <div class="ostage__scrim"></div>
+    </div>
+
+    <section class="hero" aria-labelledby="hero-title" data-hero>
+      <div class="hero__fx" aria-hidden="true"><i class="hero__haze"></i><i class="hero__flare"></i><i class="hero__horizon"></i></div>
+      <div class="hero__copy">
+        <h1 class="hero__title" id="hero-title" data-hero-title>
+          {hero.titleLines.map((l) => <span class="hero__line">{l}</span>)}
+        </h1>
+        <p class="hero__sub" data-hero-fade><span class="hero__plus" aria-hidden="true">+</span><span>{hero.lead}</span></p>
+      </div>
+      <div class="hero__hint label" aria-hidden="true"><span>{hero.hint}</span><i></i></div>
+    </section>
+
+    <section class="orbitc" aria-labelledby="orbit-title" data-orbit-copy>
+      <div class="wrap orbitc__grid">
+        <div class="orbitc__copy">
+          <p class="label orbitc__eyebrow"><span class="orbitc__idx">{orbit.index}</span><span>{orbit.eyebrow}</span></p>
+          <h2 class="title" id="orbit-title">{orbit.title.map((l) => <span>{l}</span>)}</h2>
+          <p class="lead orbitc__lead">{orbit.lead}</p>
+        </div>
+        <div class="hud orbitc__hud" data-orbit-hud>
+          <p class="label hud__title"><span class="hud__dot" aria-hidden="true"></span>{orbit.hudTitle}</p>
+          <dl class="hud__rows">
+            <div><dt>Altitude</dt><dd data-hud="alt">550 km</dd></div>
+            <div><dt>Inclination</dt><dd data-hud="inc">97.6°</dd></div>
+            <div><dt>Period</dt><dd data-hud="period">95.6 min</dd></div>
+            <div><dt>Velocity</dt><dd data-hud="vel">7.59 km/s</dd></div>
+            <div><dt>Sub-sat lat</dt><dd data-hud="lat">—</dd></div>
+            <div><dt>Sub-sat lon</dt><dd data-hud="lon">—</dd></div>
+            <div><dt>Orbit phase</dt><dd data-hud="phase">—</dd></div>
+          </dl>
+        </div>
+        <p class="micro caption orbitc__caption"><span class="cross" aria-hidden="true"></span>{orbit.caption}</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  .ostage {
+    position: relative;
+    height: 420vh;
+    background: var(--void);
+  }
+  .ostage__anchor {
+    position: absolute;
+    top: 46%;
+  }
+  .ostage__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .ostage__media,
+  .ostage__poster,
+  .ostage__canvas,
+  .ostage__scrim {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .ostage__poster {
+    object-fit: cover;
+    transition: opacity 900ms var(--ease-std);
+  }
+  .ostage__canvas {
+    opacity: 0;
+    transition: opacity 900ms var(--ease-std);
+  }
+  .ostage.is-live .ostage__canvas {
+    opacity: 1;
+  }
+  .ostage.is-live .ostage__poster {
+    opacity: 0;
+  }
+  .ostage__scrim {
+    background:
+      radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(5, 7, 10, 0.75) 100%),
+      linear-gradient(to top, rgba(5, 7, 10, 0.85), transparent 45%),
+      linear-gradient(to right, rgba(5, 7, 10, 0.55), transparent 55%);
+  }
+
+  /* ---- Hero ---- */
+  .hero,
+  .orbitc {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: clamp(3.5rem, 11vh, 7.5rem);
+    padding-top: var(--header-h);
+  }
+  /* Composition after the reference: a heavy two-line title low on the left, a
+     mono subtitle beneath it, the spacecraft filling the upper right. */
+  .hero {
+    padding-bottom: 0;
+  }
+  .hero__copy {
+    position: absolute;
+    left: max(var(--gutter), 14vw);
+    bottom: max(18vh, 7rem);
+    max-width: min(46rem, calc(100vw - 2 * var(--gutter)));
+  }
+  .hero__title {
+    font-weight: 800;
+    font-variation-settings: 'wdth' 100;
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    line-height: 0.9;
+    letter-spacing: -0.035em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .hero__line {
+    display: block;
+  }
+  .hero__sub {
+    display: flex;
+    gap: 0.6rem;
+    max-width: 30rem;
+    margin-top: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    line-height: 1.45;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.86);
+  }
+  .hero__plus {
+    flex: none;
+    color: #fff;
+  }
+  /* Optical atmosphere: warm scattered sunlight top-left, a spectral lens flare on
+     the right and the faint blue of the atmosphere along the bottom edge. */
+  .hero__fx,
+  .hero__fx i {
+    position: absolute;
+    pointer-events: none;
+  }
+  .hero__fx {
+    inset: 0;
+    overflow: hidden;
+  }
+  .hero__haze {
+    left: 8%;
+    top: -38vh;
+    width: 46vw;
+    height: 60vh;
+    background: radial-gradient(closest-side, rgba(255, 150, 70, 0.42), rgba(160, 75, 30, 0.16) 55%, transparent);
+    filter: blur(24px);
+  }
+  .hero__flare {
+    left: 74%;
+    top: 50%;
+    width: 15vw;
+    aspect-ratio: 0.75;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, transparent 52%, rgba(255, 70, 40, 0.0) 56%, rgba(255, 90, 50, 0.28) 66%, rgba(255, 200, 60, 0.3) 74%, rgba(80, 220, 140, 0.22) 81%, rgba(60, 120, 255, 0.24) 88%, transparent 96%);
+    filter: blur(16px);
+    opacity: 0.9;
+    transform: rotate(-14deg);
+    /* Only the outer edge of the ghost reads, as a spectral crescent. */
+    -webkit-mask-image: linear-gradient(100deg, transparent 38%, #000 72%);
+    mask-image: linear-gradient(100deg, transparent 38%, #000 72%);
+  }
+  .hero__horizon {
+    left: -10%;
+    right: -10%;
+    bottom: -22vh;
+    height: 40vh;
+    background: radial-gradient(50% 50% at 50% 100%, rgba(30, 75, 160, 0.42), rgba(10, 30, 90, 0.2) 55%, transparent 80%);
+  }
+  .hero__hint {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--mist);
+    font-size: var(--fs-micro);
+  }
+  .hero__hint i {
+    display: block;
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(var(--bone), transparent);
+    transform-origin: top;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__hint i {
+      animation: hint 2.4s var(--ease-aperture) infinite;
+    }
+  }
+  @keyframes hint {
+    0% { transform: scaleY(0); opacity: 1; }
+    60% { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; }
+  }
+  /* Letter de-focus reveal (set up by JS). */
+  .hero__title :global(.word) {
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .hero__title :global(.ch) {
+    display: inline-block;
+    transition:
+      opacity 1100ms var(--ease-out),
+      filter 1100ms var(--ease-out);
+  }
+  .hero__title :global(.ch.is-pre) {
+    opacity: 0;
+    filter: blur(12px);
+  }
+  .hero [data-hero-fade] {
+    transition: opacity 900ms var(--ease-std) 600ms;
+  }
+
+  /* Scroll-linked crossfade between hero and orbit copy is driven by CSS vars. */
+  .hero {
+    opacity: var(--hero-o, 1);
+    filter: blur(calc(var(--hero-b, 0) * 1px));
+    pointer-events: var(--hero-pe, auto);
+  }
+  .orbitc {
+    opacity: var(--orbit-o, 0);
+    pointer-events: none;
+    align-items: center;
+  }
+  .orbitc__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    grid-template-areas: 'copy hud' 'caption hud';
+    gap: 1.5rem 2rem;
+    height: 100%;
+  }
+  .orbitc__copy {
+    grid-area: copy;
+    align-self: center;
+    transform: translateY(calc(var(--orbit-y, 0) * 1px));
+  }
+  .orbitc__eyebrow {
+    display: flex;
+    gap: 1.25rem;
+    color: var(--mist);
+    margin-bottom: 1.5rem;
+  }
+  .orbitc__idx {
+    color: var(--signal);
+  }
+  .orbitc__lead {
+    margin-top: 1.75rem;
+  }
+  .orbitc__hud {
+    grid-area: hud;
+    justify-self: end;
+    align-self: end;
+  }
+  .orbitc__caption {
+    grid-area: caption;
+    align-self: end;
+  }
+  .orbitc .title {
+    font-size: clamp(2rem, 4.4vw, 4.25rem);
+  }
+
+  /* HUD panel */
+  .hud {
+    --c: var(--line-dark);
+    position: relative;
+    width: min(380px, 100%);
+    padding: 1.1rem 1.25rem 1.2rem;
+    background: rgba(5, 7, 10, 0.55);
+    backdrop-filter: blur(6px);
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    box-shadow: inset 0 0 0 1px var(--c);
+  }
+  .hud__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+    color: var(--bone);
+  }
+  .hud__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+    box-shadow: 0 0 0 4px rgba(255, 90, 31, 0.18);
+  }
+  .hud__rows {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .hud__rows div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.42rem 0;
+    border-top: 1px solid var(--line-dark);
+  }
+  .hud__rows dt {
+    color: var(--mist);
+  }
+  .hud__rows dd {
+    color: var(--bone);
+    font-variant-numeric: tabular-nums;
+    min-height: 1.5em;
+  }
+  .hud__rows dd:global(.is-typing)::after {
+    content: '_';
+    color: var(--signal);
+  }
+
+  @media (max-width: 900px) {
+    .hero__copy {
+      left: var(--gutter);
+      bottom: max(12vh, 6rem);
+    }
+    .orbitc__grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      grid-template-areas: 'copy' 'hud' 'caption';
+      align-content: end;
+      padding-bottom: 0;
+    }
+    .orbitc {
+      align-items: flex-end;
+      padding-bottom: 2rem;
+    }
+    .orbitc__hud {
+      justify-self: stretch;
+      width: 100%;
+    }
+    .hud__rows {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 1.25rem;
+    }
+    .hud__rows div {
+      flex-direction: column;
+      gap: 0.15rem;
+      padding: 0.35rem 0;
+    }
+    .ostage__scrim {
+      background:
+        radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(5, 7, 10, 0.7) 100%),
+        linear-gradient(to top, rgba(5, 7, 10, 0.92) 10%, transparent 70%);
+    }
+  }
+  /* Fine pointers get the cursor-following hint instead. */
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .hero__hint {
+      display: none;
+    }
+  }
+  @media (max-width: 768px) {
+    .ostage {
+      height: 340vh;
+    }
+    .hero__hint {
+      display: none;
+    }
+    .orbitc__lead {
+      margin-top: 1rem;
+    }
+    .orbitc__eyebrow {
+      margin-bottom: 0.9rem;
+    }
+  }
+  @media (max-height: 700px) and (max-width: 900px) {
+    .orbitc__lead {
+      display: none;
+    }
+  }
+  /* Short phones: keep the defining orbit figures, drop the live rows. */
+  @media (max-height: 800px) and (max-width: 480px) {
+    .hud__rows div:nth-child(n + 5) {
+      display: none;
+    }
+    .orbitc .title {
+      font-size: 1.85rem;
+    }
+  }
+</style>

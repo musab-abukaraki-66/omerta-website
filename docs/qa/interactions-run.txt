@@ -1,0 +1,32 @@
+PASS  F1  All internal links and anchors resolve; no empty hrefs
+PASS  F2a  Menu opens, sets aria-expanded, focuses first link, inerts page  — focus="01Orbit"
+PASS  F2b  Focus trapped while open
+PASS  F2c  Esc closes and restores focus to toggle
+PASS  F2d  Menu link closes menu and scrolls chapter to just below the header  — offset=90px, header=88px
+PASS  M1a  Index link scrolls to #orbit (below header) and updates the URL  — offset=88px
+FAIL  M1b  Keyboard End scrolls the native document
+PASS  V1  Header switches to light on Capabilities and back to dark  — light → dark
+PASS  C1  No console errors or failed requests (home, scripted scroll)
+PASS  M4  WebGL renders while visible and stops off-screen  — visible +3 frames / 1.5 s, off-screen +0 frames / 2 s
+PASS  W1  Stage runs in a Web Worker (OffscreenCanvas) and boots without user input  — {"mode":"worker","boot":"auto-worker"}
+PASS  F5  Without WebGL the poster is shown and no errors occur  — {"noGl":true,"poster":"1","loaded":true}
+PASS  W2  Fallback (no OffscreenCanvas): no boot before input, ignores bare mouse moves, boots on wheel, renders on main thread  — {"before":null,"afterMove":null,"mode":"main","boot":"wheel","live":true}
+PASS  W3  WebGL context loss falls back to the poster without errors  — {"noGl":true,"live":false,"err":"context-lost","poster":"1"}
+PASS  W4  Missing Earth textures: poster stays, error recorded, rest of page works  — {"noGl":true,"err":"Error: texture /textures/earth-day-2k.webp: 404","poster":"1"}
+PASS  F4  Intro ≤ 2.6 s after DOM interactive, docks logo, is removed, skipped on reload  — intro 2003 ms; removed=true; logo=1; skipped=true
+PASS  M3  Reduced motion: no intro, no smoothing, no letter split, HUD shown instantly, grain static  — {"skip":true,"lenis":false,"split":0,"hud":"95.6 min","grain":"none"}
+PASS  F3a  Empty submit flags all required fields, announces and focuses first error  — name,email,message,consent
+PASS  F3b  Invalid e-mail shows inline error on blur
+PASS  F3c  Unconfigured endpoint: says "not been sent", sends nothing, no success message  — Your message has not been sent: online enquiries are not connected yet on this site. Nothing was stored or transmitted.
+PASS  F3-200 ok  Configured endpoint, 200 ok → correct message, JSON posted, button re-enabled  — Thank you — your message was received. We will reply to the address you provided.
+PASS  F3-500  Configured endpoint, 500 → correct message, JSON posted, button re-enabled  — Your message could not be sent. Please try again in a moment.
+PASS  F3-200 {ok:false}  Configured endpoint, 200 {ok:false} → correct message, JSON posted, button re-enabled  — Your message could not be sent. Please try again in a moment.
+PASS  F3-network error  Configured endpoint, network error → correct message, JSON posted, button re-enabled  — Your message could not be sent. Please try again in a moment.
+PASS  F3-hung >15 s  Configured endpoint, hung >15 s → correct message, JSON posted, button re-enabled  — Your message could not be sent. Please try again in a moment.
+PASS  P1  Mobile first load (slow 4G, intro playing): cumulative layout shift < 0.05  — {"cls":0.001,"src":[]}
+PASS  A5  200% text size: no text clipped by pinned stages (flow layout engages)
+PASS  A6  Normal text: no stage falls back to flow; capabilities pinned at ≥1024 px (incl. 1280×800)  — [{"w":1440,"flow":0,"pinned":true},{"w":1280,"flow":0,"pinned":true},{"w":1024,"flow":0,"pinned":true},{"w":390,"flow":0,"pinned":false}]
+PASS  S1/A3  Configured origin: meta, canonical (none on noindex 404), OG, one h1, alt, landmarks, skip link, robots, sitemap
+PASS  S2  Unconfigured build (no SITE_URL) emits no localhost canonical/OG/sitemap URLs
+
+29/30 passed

@@ -1,0 +1,82 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '../styles/global.css';
+import archivoLatin from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import plexLatin500 from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-normal.woff2?url';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Loader from '../components/Loader.astro';
+import { site } from '../content/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  intro?: boolean;
+  noindex?: boolean;
+}
+const { title, description = site.description, intro = false, noindex: noindexPage = false } = Astro.props;
+// Preview deployments are never indexable, whatever the page says.
+const noindex = noindexPage || !__OMERTA_INDEXABLE__;
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.tagline}`;
+// Absolute URLs are only emitted for a real origin (SITE_URL, or the deployment's own
+// URL on a Vercel preview). A build without one must not advertise localhost URLs.
+const hasOrigin = !!Astro.site && !['localhost', '127.0.0.1'].includes(Astro.site.hostname);
+const canonical = hasOrigin && !noindex ? new URL(Astro.url.pathname, Astro.site) : null;
+const ogImage = hasOrigin ? new URL('/media/og-omerta.jpg', Astro.site) : null;
+---
+
+<!doctype html>
+<html lang={site.locale} class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#05070a" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="preload" href={archivoLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={plexLatin500} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {hasOrigin && __OMERTA_INDEXABLE__ && <link rel="sitemap" href="/sitemap-index.xml" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && (
+      <>
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="OMERTA wordmark above the night-side limb of the Earth" />
+          </>
+    )}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <script is:inline>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+    <slot name="head" />
+  </head>
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    {intro && <Loader />}
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <div class="grain" aria-hidden="true"></div>
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

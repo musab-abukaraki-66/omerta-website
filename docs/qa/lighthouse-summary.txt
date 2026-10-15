@@ -1,0 +1,10 @@
+Lighthouse 13.5, home page, local static build, headless Chromium + SwiftShader. 3 runs per mode.
+mobile-applied-1: perf 96 a11y 100 bp 100 seo 100 | LCP 1736 ms TBT 21 ms CLS 0.001
+mobile-applied-2: perf 95 a11y 100 bp 100 seo 100 | LCP 1810 ms TBT 17 ms CLS 0.001
+mobile-applied-3: perf 95 a11y 100 bp 100 seo 100 | LCP 1760 ms TBT 51 ms CLS 0.000
+mobile-simulated-1: perf 99 a11y 100 bp 100 seo 100 | LCP 2106 ms TBT 0 ms CLS 0.000
+mobile-simulated-2: perf 98 a11y 100 bp 100 seo 100 | LCP 2260 ms TBT 23 ms CLS 0.000
+mobile-simulated-3: perf 97 a11y 100 bp 100 seo 100 | LCP 2104 ms TBT 32 ms CLS 0.000
+desktop-1: perf 98 a11y 100 bp 100 seo 100 | LCP 490 ms TBT 0 ms CLS 0.000
+desktop-2: perf 99 a11y 100 bp 100 seo 100 | LCP 485 ms TBT 0 ms CLS 0.000
+desktop-3: perf 100 a11y 100 bp 100 seo 100 | LCP 484 ms TBT 0 ms CLS 0.000

@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import OrbitStage from '../components/sections/OrbitStage.astro';
+import Observation from '../components/sections/Observation.astro';
+import Ground from '../components/sections/Ground.astro';
+import Capabilities from '../components/sections/Capabilities.astro';
+import Approach from '../components/sections/Approach.astro';
+import Finale from '../components/sections/Finale.astro';
+---
+
+<Base intro>
+  <link slot="head" rel="preload" as="image" href="/media/orbit-poster-1600.webp" imagesrcset="/media/orbit-poster-900.webp 900w, /media/orbit-poster-1600.webp 1600w, /media/orbit-poster-2400.webp 2400w" imagesizes="100vw" fetchpriority="high" />
+  <OrbitStage />
+  <Observation />
+  <Ground />
+  <Capabilities />
+  <Approach />
+  <Finale />
+</Base>

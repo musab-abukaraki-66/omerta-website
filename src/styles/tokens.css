@@ -1,0 +1,68 @@
+:root {
+  /* Colour */
+  --void: #05070a;
+  --graphite: #0d1117;
+  --bone: #eceae4;
+  --paper: #f5f4f0;
+  --ink: #101317;
+  --mist: #9aa4af;
+  --slate: #59626c;
+  --signal: #ff5a1f;
+  --line-dark: rgba(236, 234, 228, 0.14);
+  --line-light: rgba(16, 19, 23, 0.16);
+
+  /* Contextual (overridden by [data-theme]) */
+  --bg: var(--void);
+  --fg: var(--bone);
+  --fg-2: var(--mist);
+  --line: var(--line-dark);
+
+  /* Type */
+  --font-sans: 'Archivo Variable', 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --fs-statement: clamp(2.4rem, 6.6vw, 6.4rem);
+  --fs-title: clamp(2.1rem, 5.2vw, 4.75rem);
+  --fs-lead: clamp(1.05rem, 1.35vw, 1.3rem);
+  --fs-body: 1rem;
+  --fs-label: 0.75rem;
+  --fs-micro: 0.6875rem;
+
+  /* Space */
+  --gutter: clamp(20px, 5vw, 72px);
+  --max: 1440px;
+  --header-h: 88px;
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2.5rem;
+  --s-5: 4rem;
+  --s-6: clamp(5rem, 12vw, 10rem);
+
+  /* Motion */
+  --ease-aperture: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-std: cubic-bezier(0.4, 0, 0.2, 1);
+  --t-micro: 240ms;
+  --t-reveal: 900ms;
+
+  /* Layers */
+  --z-stage: 1;
+  --z-content: 2;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-grain: 70;
+  --z-loader: 80;
+}
+
+[data-theme='light'] {
+  --bg: var(--bone);
+  --fg: var(--ink);
+  --fg-2: var(--slate);
+  --line: var(--line-light);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-h: 64px;
+  }
+}

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Signal lost" description="The page you requested could not be found." noindex>
+  <section class="nf" data-section-theme="dark" aria-labelledby="nf-title">
+    <div class="wrap">
+      <p class="label nf__code"><span class="cross" aria-hidden="true"></span>Error 404 · No contact</p>
+      <h1 class="statement nf__title" id="nf-title"><span>Signal</span><span>lost</span></h1>
+      <p class="lead nf__lead">The page you were looking for is outside our coverage. It may have moved, or the address may be mistyped.</p>
+      <a class="btn nf__btn" href="/"><span data-scramble-hover>Return to orbit</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-block: calc(var(--header-h) + 3rem) 5rem;
+  }
+  .nf__code {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    color: var(--mist);
+    margin-bottom: 2rem;
+  }
+  .nf__lead {
+    margin-top: 2rem;
+  }
+  .nf__btn {
+    margin-top: 2.5rem;
+  }
+</style>

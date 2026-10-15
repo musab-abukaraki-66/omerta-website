@@ -1,0 +1,134 @@
+---
+import Wordmark from './Wordmark.astro';
+---
+
+<!--
+  Intro sequence (first visit per session only; skipped under reduced motion):
+  wordmark draws on → odometer counts real readiness → aperture bands open →
+  wordmark docks into the header. Decorative: hidden from assistive tech.
+-->
+<div class="loader" data-loader aria-hidden="true">
+  <div class="loader__band loader__band--top"></div>
+  <div class="loader__band loader__band--bottom"></div>
+  <div class="loader__mark" data-loader-mark>
+    <Wordmark animated={false} />
+  </div>
+  <div class="loader__count label" data-loader-count>
+    <span class="odo" data-odo></span><span class="loader__pct">%</span>
+  </div>
+</div>
+
+<script is:inline>
+  // Decide synchronously (before first paint) whether the intro plays, so it never
+  // flashes for returning visitors or reduced-motion users.
+  (function () {
+    var d = document.documentElement;
+    var skip = false;
+    try {
+      skip = sessionStorage.getItem('omerta:intro') === '1';
+    } catch (e) {}
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) skip = true;
+    if (/[?&]nointro\b/.test(location.search)) skip = true;
+    d.classList.add(skip ? 'intro-skip' : 'intro-play');
+  })();
+</script>
+
+<style>
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-loader);
+    pointer-events: none;
+    display: none;
+  }
+  :global(html.intro-play) .loader {
+    display: block;
+    pointer-events: auto;
+  }
+  :global(html.intro-play.intro-done) .loader {
+    pointer-events: none;
+  }
+  .loader__band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50.5%;
+    background: #000;
+    transition: transform 1100ms var(--ease-aperture);
+  }
+  .loader__band--top {
+    top: 0;
+  }
+  .loader__band--bottom {
+    bottom: 0;
+  }
+  .loader.is-open .loader__band--top {
+    transform: translateY(-100%);
+  }
+  .loader.is-open .loader__band--bottom {
+    transform: translateY(100%);
+  }
+  .loader__mark {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(360px, 70vw);
+    color: var(--bone);
+    transform: translate(-50%, -50%);
+    transform-origin: 0 0;
+  }
+  .loader__mark :global(.wm-letters > *) {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 1;
+  }
+  .loader__mark :global(.wm-orbit) {
+    opacity: 0;
+    transition: opacity 400ms var(--ease-std);
+  }
+  .loader.is-drawing .loader__mark :global(.wm-letters > *) {
+    animation: wm-draw 900ms var(--ease-aperture) forwards;
+  }
+  .loader.is-drawing .loader__mark :global(.wm-letters > *:nth-child(2)) { animation-delay: 110ms; }
+  .loader.is-drawing .loader__mark :global(.wm-letters > *:nth-child(3)) { animation-delay: 220ms; }
+  .loader.is-drawing .loader__mark :global(.wm-letters > *:nth-child(4)) { animation-delay: 330ms; }
+  .loader.is-drawing .loader__mark :global(.wm-letters > *:nth-child(5)) { animation-delay: 440ms; }
+  .loader.is-drawing .loader__mark :global(.wm-letters > *:nth-child(6)) { animation-delay: 550ms; }
+  .loader.is-drawn .loader__mark :global(.wm-orbit) {
+    opacity: 1;
+  }
+  @keyframes wm-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  .loader__count {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + min(36px, 7vw));
+    transform: translateX(-50%);
+    color: var(--mist);
+    display: flex;
+    align-items: center;
+    transition: opacity 300ms var(--ease-std);
+  }
+  .loader.is-open .loader__count {
+    opacity: 0;
+  }
+  .loader__count :global(.odo) {
+    display: inline-flex;
+  }
+  .loader__count :global(.odo-col) {
+    position: relative;
+    display: inline-block;
+    width: 1ch;
+    height: 1.4em;
+    overflow: hidden;
+  }
+  .loader__count :global(.odo-col span) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    text-align: center;
+  }
+</style>

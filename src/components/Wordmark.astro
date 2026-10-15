@@ -1,0 +1,62 @@
+---
+/**
+ * OMERTA wordmark — stroke-built on a 24-unit cap height so it can be drawn on
+ * (stroke-dashoffset) by the loader. The O is an orbit: a ring with a node that
+ * travels around it.
+ */
+interface Props {
+  class?: string;
+  title?: string;
+  animated?: boolean;
+  id?: string;
+}
+const { class: className = '', title = 'OMERTA', animated = true, id } = Astro.props;
+---
+
+<svg
+  class:list={['wordmark', className, { 'wordmark--animated': animated }]}
+  id={id}
+  viewBox="-2 -3 196 34"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2.2"
+  stroke-linecap="square"
+  stroke-linejoin="miter"
+  stroke-miterlimit="10"
+  role="img"
+  aria-label={title}
+>
+  <title>{title}</title>
+  <g class="wm-letters">
+    <circle class="wm-o" cx="14" cy="14" r="12" pathLength="1"></circle>
+    <path d="M38 26V2l12 16 12-16v24" pathLength="1"></path>
+    <path d="M92 2H74v24h18M74 14h15" pathLength="1"></path>
+    <path d="M104 26V2h13a6 6 0 0 1 0 12h-13m11 0 9 12" pathLength="1"></path>
+    <path d="M134 2h22M145 2v24" pathLength="1"></path>
+    <path d="M166 26 178 2l12 24m-19.5-9h15" pathLength="1"></path>
+  </g>
+  <g class="wm-orbit">
+    <circle cx="14" cy="2" r="2.6" fill="var(--signal)" stroke="none"></circle>
+  </g>
+</svg>
+
+<style>
+  .wordmark {
+    display: block;
+    overflow: visible;
+  }
+  .wm-orbit {
+    transform-box: view-box;
+    transform-origin: 16px 17px; /* viewBox origin is (-2,-3): (14,14) → (16,17) */
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .wordmark--animated .wm-orbit {
+      animation: wm-orbit 9s linear infinite;
+    }
+  }
+  @keyframes wm-orbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>

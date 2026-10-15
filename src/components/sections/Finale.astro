@@ -1,0 +1,99 @@
+---
+import { finale } from '../../content/site';
+import Wordmark from '../Wordmark.astro';
+---
+
+<section class="fin" id="contact-cta" aria-labelledby="fin-title" data-fin data-section-theme="dark">
+  <div class="fin__sticky">
+    <img
+      class="fin__bg"
+      src="/media/orbit-poster-1600.webp"
+      srcset="/media/orbit-poster-900.webp 900w, /media/orbit-poster-1600.webp 1600w"
+      sizes="100vw"
+      width="1600"
+      height="1000"
+      loading="lazy"
+      decoding="async"
+      alt=""
+    />
+    <div class="fin__band fin__band--top" aria-hidden="true"></div>
+    <div class="fin__band fin__band--bottom" aria-hidden="true"></div>
+    <div class="wrap fin__inner">
+      <div class="fin__mark" aria-hidden="true"><Wordmark animated={false} /></div>
+      <h2 class="statement fin__title" id="fin-title">{finale.statement.map((l) => <span>{l}</span>)}</h2>
+      <p class="lead fin__lead">{finale.lead}</p>
+      <a class="btn fin__cta" href={finale.cta.href}>
+        <span data-scramble-hover>{finale.cta.label}</span>
+        <svg class="arrow" viewBox="0 0 14 10" aria-hidden="true"><path d="M0 5h12M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"></path></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .fin {
+    position: relative;
+    height: 220vh;
+    background: #000;
+  }
+  .fin__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .fin__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    filter: blur(calc(var(--fin-p, 0) * 14px));
+    transform: scale(1.06);
+  }
+  .fin__band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50.5%;
+    background: #000;
+    z-index: 1;
+  }
+  .fin__band--top {
+    top: 0;
+    transform: translateY(calc((1 - var(--fin-band, 0)) * -100%));
+  }
+  .fin__band--bottom {
+    bottom: 0;
+    transform: translateY(calc((1 - var(--fin-band, 0)) * 100%));
+  }
+  .fin__inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: var(--fin-o, 0);
+    transform: translateY(calc((1 - var(--fin-o, 0)) * 30px));
+  }
+  .fin__mark {
+    width: 120px;
+    color: var(--bone);
+    margin-bottom: 2.5rem;
+  }
+  .fin__title {
+    font-size: clamp(2.2rem, 6.2vw, 5.75rem);
+  }
+  .fin__lead {
+    margin: 1.75rem auto 0;
+  }
+  .fin__cta {
+    margin-top: 2.5rem;
+    pointer-events: var(--fin-pe, none);
+  }
+</style>

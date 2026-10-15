@@ -1,0 +1,233 @@
+---
+import { capabilities } from '../../content/site';
+const pad = (n: number) => String(n + 1).padStart(2, '0');
+---
+
+<section class="caps" id="capabilities" aria-labelledby="caps-title" data-theme="light" data-section-theme="light" data-caps>
+  <div class="caps__sticky">
+    <div class="wrap caps__head">
+      <div>
+        <p class="label caps__eyebrow"><span class="caps__idx">{capabilities.index}</span><span>{capabilities.eyebrow}</span></p>
+        <h2 class="title" id="caps-title">{capabilities.title.map((l) => <span>{l}</span>)}</h2>
+      </div>
+      <div class="caps__aside">
+        <p class="lead">{capabilities.lead}</p>
+        <div class="caps__progress" aria-hidden="true"><span data-caps-bar></span></div>
+      </div>
+    </div>
+    <div class="caps__viewport" data-caps-viewport tabindex="0" aria-label="Capability cards">
+      <ul class="caps__track" role="list" data-caps-track>
+        {capabilities.cards.map((c, i) => (
+          <li class="card">
+            <article>
+              <div class="card__top">
+                <span class="label card__idx">{pad(i)}</span>
+                <span class="card__glyph" aria-hidden="true"></span>
+              </div>
+              <h3 class="card__title">{c.title}</h3>
+              <p class="label card__sub">{c.subtitle}</p>
+              <ul class="card__list" role="list">
+                {c.bullets.map((b) => (
+                  <li><span class="cross" aria-hidden="true"></span>{b}</li>
+                ))}
+              </ul>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .caps {
+    position: relative;
+    background: var(--bone);
+    color: var(--ink);
+    /* Desktop height is set by JS from the track width (pinned horizontal scroll). */
+  }
+  .caps__sticky {
+    padding-block: calc(var(--header-h) + 2rem) 3rem;
+  }
+  .caps__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 2rem clamp(2rem, 6vw, 6rem);
+    align-items: end;
+  }
+  .caps__eyebrow {
+    display: flex;
+    gap: 1.25rem;
+    color: var(--slate);
+    margin-bottom: 1.5rem;
+  }
+  .caps__idx {
+    color: #a3340a; /* signal darkened for ≥4.5:1 on bone */
+  }
+  .caps__aside .lead {
+    color: var(--slate);
+  }
+  .caps__progress {
+    position: relative;
+    margin-top: 1.75rem;
+    height: 1px;
+    background: var(--line-light);
+  }
+  .caps__progress span {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+    transform-origin: left;
+    transform: scaleX(var(--caps-p, 0));
+  }
+  .caps__viewport {
+    margin-top: clamp(2rem, 5vh, 3.5rem);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+  }
+  .caps__viewport::-webkit-scrollbar {
+    display: none;
+  }
+  .caps__track {
+    display: flex;
+    gap: clamp(12px, 1.6vw, 24px);
+    width: max-content;
+    padding-bottom: 4px;
+  }
+  .card {
+    scroll-snap-align: start;
+    width: clamp(270px, 28vw, 400px);
+  }
+  .card article {
+    height: 100%;
+    min-height: clamp(320px, 46vh, 440px);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.5rem 1.75rem;
+    background: var(--paper);
+    box-shadow: inset 0 0 0 1px var(--line-light);
+    transition: box-shadow var(--t-micro) var(--ease-std), transform 500ms var(--ease-out);
+  }
+  .card:hover article {
+    box-shadow: inset 0 0 0 1px var(--ink);
+    transform: translateY(-4px);
+  }
+  .card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card__idx {
+    color: var(--slate);
+    transition: color var(--t-micro) var(--ease-std);
+  }
+  .card:hover .card__idx {
+    color: #a3340a;
+  }
+  .card__glyph {
+    width: 26px;
+    height: 26px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    position: relative;
+    opacity: 0.6;
+  }
+  .card__glyph::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--ink);
+    top: -3px;
+    left: calc(50% - 2.5px);
+    transform-origin: 2.5px 15px;
+    transition: transform 900ms var(--ease-out);
+  }
+  .card:hover .card__glyph::after {
+    transform: rotate(180deg);
+  }
+  .card__title {
+    margin-top: auto;
+    padding-top: 3rem;
+    font-weight: 700;
+    font-size: clamp(1.45rem, 2vw, 1.85rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    font-variation-settings: 'wdth' 112;
+  }
+  .card__sub {
+    margin-top: 0.6rem;
+    color: var(--slate);
+  }
+  .card__list {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line-light);
+    font-size: 0.95rem;
+  }
+  .card__list li {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+  }
+  .card__list li + li {
+    margin-top: 0.45rem;
+  }
+  .card__list .cross {
+    color: var(--slate);
+    transform: translateY(1px);
+  }
+
+  /* Pinned horizontal mode (desktop, set by JS). */
+  :global(.caps.is-pinned) .caps__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+  :global(.caps.is-pinned) .caps__viewport {
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+  :global(.caps.is-pinned) .caps__track {
+    transform: translate3d(calc(var(--caps-x, 0) * -1px), 0, 0);
+    will-change: transform;
+  }
+
+  /* Shorter laptop screens: tighten the vertical rhythm so the pinned layout fits. */
+  @media (max-height: 900px) and (min-width: 1024px) {
+    .caps__sticky {
+      padding-block: calc(var(--header-h) + 0.5rem) 1.5rem;
+    }
+    .caps .title {
+      font-size: clamp(2rem, 4.2vw, 3.9rem);
+    }
+    .caps__eyebrow {
+      margin-bottom: 1rem;
+    }
+    .caps__viewport {
+      margin-top: 1.75rem;
+    }
+    .card article {
+      min-height: clamp(300px, 42vh, 400px);
+    }
+    .card__title {
+      padding-top: 2rem;
+    }
+  }
+  @media (max-width: 900px) {
+    .caps__head {
+      grid-template-columns: 1fr;
+    }
+    .card {
+      width: min(82vw, 340px);
+    }
+  }
+</style>

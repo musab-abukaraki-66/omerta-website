@@ -10,6 +10,7 @@
 | `media/npp-cleanroom-*.webp` | NASA, Suomi NPP in clean room, Vandenberg, 2011 — `KSC-2011-7023` | NASA imagery | Resized, WebP q72 |
 | `media/kazakhstan-fields-*.webp` | NASA, Landsat 8 OLI, eastern Kazakhstan, 2013-09-09 — `GSFC_20171208_Archive_e001371` | NASA imagery | Evaluated, not used (removed from the build) |
 | `media/orbit-poster-*.webp`, `media/og-omerta.jpg` | **Rendered by us** from the site's own WebGL scene (`scripts/qa/make-poster.mjs`) | Original | — |
+| `docs/media/*.jpg` (README screenshots) | **Captured by us** from the deployed preview. They include the credited NASA imagery shown on the site | Original screenshots | Resized, JPEG q84 |
 | `textures/grain.png` | Generated noise (NumPy) | Original | — |
 | Satellite model | Procedural geometry and canvas-drawn PBR maps in `src/scripts/stages/satellite.ts` (no third-party model; NASA's Suomi NPP glTF was evaluated and not used) | Original | — |
 | Wordmark, favicon | Original SVG | Original | — |

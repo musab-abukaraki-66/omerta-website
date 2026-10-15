@@ -22,20 +22,17 @@ production origin, contact endpoint or confirmed copy is missing. This is
 intentional. Do not bypass it to "make production work"; supply the information
 instead (see `owner-inputs-and-release-blockers.md`).
 
-## Current state (2026-10-15)
+## Current state
 
-- **Project `omerta`:** exists and is **not connected to Git**. Deployments are created
-  explicitly through the Vercel API from a pushed commit.
-- **Environment:** Vercel picks Production or Preview from the branch. The GitHub
-  default branch counts as Production. Preview deployments are therefore made from
-  `main` until `main` becomes the default and the Production Branch.
-- **Vercel Authentication:** disabled for this project, so preview links open without a
-  Vercel login.
-- **Stable preview URL:** `https://omerta-space.vercel.app`, a project domain bound to
-  branch `main`. Each new `main` Preview takes it over; it is never Production.
-- **Source repository:** deployments currently build from the original private repository.
-  Once the clean repository `omerta-website` exists, deploy from it and connect it in
-  Settings → Git (`owner-inputs-and-release-blockers.md` B1/B2).
+- **Project `omerta`** is connected to this repository (`musab-abukaraki-66/omerta-website`).
+- **Production Branch: `production`.** Every push to `main` (or any other branch)
+  creates a Preview. `main` Previews take over the stable URL
+  **https://omerta-space.vercel.app**. Pushes to `production` create Production
+  deployments, which fail at the release guard until launch inputs exist.
+- **Vercel Authentication:** disabled, so preview links open without a Vercel login.
+  Previews are always `noindex`.
+- `omerta-tau.vercel.app` is Vercel's automatic production address; it shows nothing
+  until a Production deployment succeeds.
 
 ## Vercel project setup (one time, by the account owner)
 

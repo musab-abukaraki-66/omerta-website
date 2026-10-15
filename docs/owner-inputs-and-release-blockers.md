@@ -41,11 +41,7 @@ accident.
 
 ## 3. Blocked by missing permissions
 
-| # | Action | Why it was not done here |
-|---|---|---|
-| B1 | Create the empty GitHub repository `musab-abukaraki-66/omerta-website` and push this clean history to it | The build session's GitHub access is bound to the original repository: account-level repository creation is refused (HTTP 403), and changing the original repository's settings to use template generation was not permitted. |
-| B2 | Connect `omerta-website` to the Vercel project `omerta` (Settings → Git). Until launch, set Production Branch to `production` (a branch that does not exist yet), so pushes to `main` keep producing Previews on `omerta-space.vercel.app`; switch it to `main` at launch | The Vercel API connector can create linked *new* projects but cannot link an existing one. Until it is linked, deployments are created explicitly from pushed commits. |
-| B3 | GitHub default branch of the original repository → `main` | Repository settings are not exposed to the session. Low priority once the original is archived. |
+None. The clean repository is public, connected to Vercel, and tracks `production` as its Production Branch.
 
 ## 4. Waiting for real-device or external validation
 
@@ -61,7 +57,7 @@ accident.
 
 1. Supply F1–F4. Set F1/F2 in Vercel for **Production** only; leave Preview without `SITE_URL`.
 2. Locally: `SITE_URL=… PUBLIC_CONTACT_ENDPOINT=… npm run release-check` must pass.
-3. In Vercel, set Production Branch to `main` and deploy `main`. The build runs the guard, which now passes, and deploys.
+3. Merge `main` into `production` (or set Production Branch to `main`). The build runs the guard, which now passes, and deploys.
 4. Add the custom domain in Vercel and confirm it matches `SITE_URL`.
 5. Run the external validation in section 4.
 
